@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List all Pending Orders</title>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+</head>
+<body>
+
+<div class="container">
+    <form th:action="@{'/user/logout'}" th:object="${pod}" th:method="GET">
+
+        <button type="submit">Logout</button>
+    </form>
+    <li><a href="#" th:href="@{/dashboard/catalog/form}">Query Plants</a></li>
+    <li><a href="#" th:href="@{/dashboard/orders}">Open Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/closedorders}">Closed Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/pendingorders}">Pending Supplier Confirmation Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/workerpendingorders}">Pending Worker Confirmation Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/cancelpending}">Cancelled Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/rejectedorders}">Rejected Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/timeoutorders}">Expired Orders</a></li>
+    <div class="panel panel-default">
+        <div class="panel-heading">List of All Rejected Orders</div>
+        <div class="form-group">`
+        </div>
+        <div class="panel-body">
+            <p> <span style="color:red" th:text="${error_message}"></span></p>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Plant</th>
+                    <th>Email</th>
+                    <th>Rental start</th>
+                    <th>Rental end</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="table-row" th:each="o : ${orders}">
+                    <td>
+
+                        <table class="table table-bordered">
+                            <thead>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td th:text="${o.purchaseOrderDTO.plant.name}"></td>
+                                <td th:text="${o.purchaseOrderDTO.plant.description}"></td>
+                                <td th:text="${o.purchaseOrderDTO.plant.price}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td th:text="${o.purchaseOrderDTO.consumerEmail}"></td>
+                    <td th:text="${o.purchaseOrderDTO.rentalPeriod.startDate}"></td>
+                    <td th:text="${o.purchaseOrderDTO.rentalPeriod.endDate}"></td>
+                    <td th:text="${o.purchaseOrderDTO.total}"></td>
+                    <td th:text="${o.purchaseOrderDTO.status}"></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

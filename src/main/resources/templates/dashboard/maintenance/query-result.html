@@ -1,0 +1,49 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List all Plants</title>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"></link>
+</head>
+<body>
+
+<div class="container">
+    <li><a href="#" th:href="@{/dashboard/catalog/form}">Query Plants</a></li>
+    <li><a href="#" th:href="@{/dashboard/orders}">Open Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/closedorders}">Closed Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/pendingorders}">Pending Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/catalog/deliveryForm}">Delivery Form</a></li>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">List of Tasks</div>
+        <div class="panel-body">
+            <p> <span style="color:red" th:text="${error_message}"></span></p>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Type of work</th>
+                    <th>Price</th>
+                    <th>Begin date</th>
+                    <th>End date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="task : ${tasks}">
+                    <td th:text="${task.description}"></td>
+                    <td th:text="${task.type_of_work}"></td>
+                    <td th:text="${task.price}"></td>
+                    <td th:text="${task.schedule.startDate}"></td>
+                    <td th:text="${task.schedule.endDate}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</body>
+</html>

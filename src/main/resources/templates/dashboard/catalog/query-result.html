@@ -1,0 +1,63 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List all Plants</title>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"></link>
+</head>
+<body>
+
+<div class="container">
+    <form th:action="@{'/user/logout'}" th:object="${pod}" th:method="GET">
+
+        <button type="submit">Logout</button>
+    </form>
+    <li><a href="#" th:href="@{/dashboard/catalog/form}">Query Plants</a></li>
+    <li><a href="#" th:href="@{/dashboard/orders}">Open Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/closedorders}">Closed Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/pendingorders}">Pending Supplier Confirmation Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/workerpendingorders}">Pending Worker Confirmation Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/cancelpending}">Cancelled Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/rejectedorders}">Rejected Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/timeoutorders}">Expired Orders</a></li>
+    <div class="panel panel-default">
+        <div class="panel-heading">List of Plants</div>
+        <div class="panel-body">
+            <p> <span style="color:red" th:text="${error_message}"></span></p>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <!--<th>id</th>-->
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="table-row plant" th:each="p : ${plants}" th:name="${p.id}">
+                    <!--<td th:text="${p.id}"></td>-->
+                    <td th:text="${p.name}"></td>
+                    <td th:text="${p.description}"></td>
+                    <td th:text="${p.price}"></td>
+                    <td>
+                        <form style='float:left; padding:5px; height:0px' th:object="${po}" th:method="POST" th:action="@{'/dashboard/orders'}">
+                            <input type="hidden" name="plant._id" th:value="${p.id}"></input>
+                            <input type="hidden" name="plant.name" th:value="${p.name}"></input>
+                            <input type="hidden" name="rentalPeriod.startDate" th:value="${rentalPeriod.startDate}"></input>
+                            <input type="hidden" name="rentalPeriod.endDate" th:value="${rentalPeriod.endDate}"></input>
+                            <input type="hidden" name="consumerEmail" th:value="${'asd@asd.com'}"></input>
+                            <button th:id='${p.id}' class="btn btn-default btn-xs" type="submit">Create PO</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</body>
+</html>

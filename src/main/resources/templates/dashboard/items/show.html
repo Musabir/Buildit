@@ -1,0 +1,85 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>New Plant</title>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+</head>
+<body>
+
+
+<div class="container">
+    <li><a href="#" th:href="@{/dashboard/catalog/form}">Query Plants</a></li>
+    <li><a href="#" th:href="@{/dashboard/orders}">Open Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/closedorders}">Closed Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/pendingorders}">Pending Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/catalog/deliveryForm}">Delivery Form</a></li>
+    <div class="panel panel-default">
+        <div class="panel-heading">Inventory Item</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-2"><b>Plant Name</b></div>
+                <div class="col-sm-8" th:text="${item.plantInfo.name}"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2"><b>Description</b></div>
+                <div class="col-sm-8" th:text="${item.plantInfo.description}"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2"><b>Price</b></div>
+                <div id="total-cost" class="col-sm-8" th:text="${item.plantInfo.price}"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2"><b>Serial Number</b></div>
+                <div id="total-cost" class="col-sm-8" th:text="${item.serialNumber}"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2"><b>Status</b></div>
+                <div class="col-sm-8" th:text="${item.itemStatus}"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2"><b>Condition</b></div>
+                <div class="col-sm-8" th:text="${item.equipmentCondition}"></div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-5">
+                    <form th:action="@{''+${linki}}" th:object="${item}" th:method="PUT">
+                        <table>
+                            <tr>
+                                <td><label>New Status</label></td>
+                                <td>
+                                    <select  th:field="*{itemStatus}">
+                                        <option th:each="text : ${allStatus}" th:value="${text}" th:text="${text}">nope</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><button type="submit">Update</button></td>
+                            </tr>
+                        </table>
+                    </form>
+
+                </div>
+                <div class="col-sm-5">
+                    <form th:action="@{''+${linkm}}" th:object="${item}" th:method="GET">
+                        <td><button type="submit">Create Maintenance Task</button></td>
+                    </form>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+</html>

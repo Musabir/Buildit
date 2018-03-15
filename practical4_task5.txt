@@ -1,0 +1,23 @@
+Assume that you have to update SalesRestController to allow the customer to resubmit a rejected PO. 
+Recall that a PO gets rejected when the requested plant is not available for a given rental period. 
+Thus, resubmitting a PO would make sense only if the customer changes either the required plant 
+or the rental period (or changes both of them).
+
+How many methods would you add to SalesRestController?
+Implementing something like that would require better control over the exception. Currently
+the handling of PlantNotFoundException in the end of the file and just displays the error.
+To make it work with the new requirements, it might be needed for the handler to redirect
+the user back to the rejected PO while telling them why exactly was it rejected. This allows the user to
+easily modify the PO and resubmit it. So, a method which handles the errors for the plant and dates 
+is needed.
+
+What about the URIs associated with such methods and corresponding parameters?
+It would be needed to have a URI with all the information needed to redirect the user back to 
+the rejected PO. The method itself can reuse the code already written. For example, the method 
+ResponseEntity if the PO didn’t give any errors. 
+
+How would you update the sales application service (what methods and parameters)?
+The service needs to support the redirecting of the user back to the right page. For that,
+It needs to support displaying the error messages if the plant is not available. It could be done 
+with a method that gets the errors as input and then displays the errors in easy-to-read format
+for the user.

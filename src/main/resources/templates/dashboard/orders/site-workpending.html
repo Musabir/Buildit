@@ -1,0 +1,179 @@
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List of All Worker Pending Orders</title>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+</head>
+<body>
+
+<div class="container">
+    <form th:action="@{'/user/logout'}" th:object="${pod}" th:method="GET">
+
+        <button type="submit">Logout</button>
+    </form>
+    <li><a href="#" th:href="@{/dashboard/catalog/form}">Query Plants</a></li>
+    <li><a href="#" th:href="@{/dashboard/orders}">Open Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/closedorders}">Closed Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/pendingorders}">Pending Supplier Confirmation Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/workerpendingorders}">Pending Worker Confirmation Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/cancelpending}">Cancelled Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/rejectedorders}">Rejected Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/timeoutorders}">Expired Orders</a></li>
+    <div class="panel panel-default">
+        <div class="panel-heading">List of Pending Orders for Worker Confirmation</div>
+        <div class="form-group">
+        </div>
+        <div class="panel-body">
+            <p> <span style="color:red" th:text="${error_message}"></span></p>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Plant</th>
+                    <th style="display: none">ID</th>
+                    <th>Email</th>
+                    <th>Rental start</th>
+                    <th>Rental end</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Cancel</th>
+                    <th>Modify</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="table-row" th:each="o : ${orders}">
+                    <td>
+
+                        <table class="table table-bordered">
+                            <thead>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td th:text="${o.purchaseOrderDTO.plant.name}"></td>
+                                <td th:text="${o.purchaseOrderDTO.plant.description}"></td>
+                                <td th:text="${o.purchaseOrderDTO.plant.price}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="display: none" th:text="${o.purchaseOrderDTO.id}"></td>
+                    <td th:text="${o.purchaseOrderDTO.consumerEmail}"></td>
+                    <td th:text="${o.purchaseOrderDTO.rentalPeriod.startDate}"></td>
+                    <td th:text="${o.purchaseOrderDTO.rentalPeriod.endDate}"></td>
+                    <td th:text="${o.purchaseOrderDTO.total}"></td>
+                    <td th:text="${o.purchaseOrderDTO.status}"></td>
+                    <td >
+                        <form th:action="@{'/dashboard/cancelworkpending'}" th:object="${pod}" th:method="POST">
+                            <input type="hidden" name="links[0]" id="links[0]" th:value="${o.purchaseOrderDTO.getId()}"></input>
+                            <input type="hidden" name="status" id="status" th:value="${o.purchaseOrderDTO.status}"></input>
+                            <button type="submit">Cancel</button>
+                        </form>
+                    </td>
+
+                    <td>
+
+                        <!-- <form th:action="@{'/dashboard/modifypending'}" th:object="${pod}" th:method="POST"> -->
+                        <!--<input type="hidden" name="links[0]" id="links[0]" th:value="${o.purchaseOrderDTO.getId()}"></input>-->
+                        <!--<input type="hidden" name="status" id="status" th:value="${o.purchaseOrderDTO.status}"></input>-->
+                        <button class="modify-order">Modify</button>
+                        <!--  </form> -->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div id="modify-dialog" class="container" style="display:none;">
+    <form class="form-horizontal col-md-offset-3" method="POST" action="/dashboard/workerpendingorders">
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <span id="order-name" class="form-control input-md"></span>
+            </div>
+        </div>
+
+        <div class="form-group" style="display: none">
+            <div class="col-md-10">
+                <input id="order-id" name ="order-id" class="form-control input-md"  />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="date" id="rental-start" name="rental-start" placeholder="Rental start" class="form-control input-md" required="" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="date" id="rental-end" name="rental-end" placeholder="Rental end" class="form-control input-md" required=""  />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input id="total" name="total" placeholder="Total" class="form-control input-md" required=""/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6">
+                <input  type="submit" class="btn btn-primary pull-right" value="Modify"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css"></link>
+
+
+<script>
+    $(document).ready(function(){
+        $('.modify-order').click(function () {
+
+            var $row = $(this).closest("tr");    // Find the row
+            var $tds = $row.find("td");
+            $.each($tds, function(index) {
+                console.log(index +  " " + $(this).text());
+                if(index == 1) {
+                    $('#order-name').text($(this).text());
+                }
+                if(index == 4) {
+                    var stId = $(this).text();
+                    var lastIndex = stId.lastIndexOf('/');
+                    var indexOf = stId.lastIndexOf('>');
+                    var id = stId.slice(lastIndex+1, indexOf);
+                    $('#order-id').val(id);
+                } else if(index == 6) {
+                    $('#rental-start').val($(this).text());
+                } else if(index == 7) {
+                    $('#rental-end').val($(this).text());
+                } else if(index == 8) {
+                    $('#total').val($(this).text());
+                }
+            });
+
+            //  console.log(id);
+            $('#modify-dialog').dialog({
+                title: 'Modify',
+                with: 600,
+                height: 400
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>

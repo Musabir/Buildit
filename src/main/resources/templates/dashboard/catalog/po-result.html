@@ -1,0 +1,25 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Document</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"></link>
+</head>
+<body>
+<div class="container">
+    <form th:action="@{'/user/logout'}" th:object="${pod}" th:method="GET">
+        <button type="submit">Logout</button>
+    </form>
+    <li><a href="#" th:href="@{/dashboard/catalog/form}">Query Plants</a></li>
+    <li><a href="#" th:href="@{/dashboard/orders}">Open Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/closedorders}">Closed Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/pendingorders}">Pending Supplier Confirmation Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/workerpendingorders}">Pending Worker Confirmation Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/cancelpending}">Cancelled Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/rejectedorders}">Rejected Orders</a></li>
+    <li><a href="#" th:href="@{/dashboard/timeoutorders}">Expired Orders</a></li>
+    Purchase order is created, price: <strong id="price" th:text="${purchaseOrder.getTotal()}"></strong>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</body>
+</html>
